@@ -6,14 +6,30 @@ import {
   TextInput,
   Alert,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 
 export function RegistrationForm() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const togglePassword = () => {
     setIsPasswordVisible(!isPasswordVisible);
-  }
+  };
+
+  const onRegistrate = () => {
+    Alert.alert("Credentials",
+    `Name: ${userName}
+    Login:${userEmail}
+    Password:${password} `
+    );
+    setUserName("");
+    setUserEmail("");
+    setPassword("");
+  };
 
   return (
     <View style={[styles.container, { justifyContent: "flex-end" }]}>
@@ -24,43 +40,50 @@ export function RegistrationForm() {
           </TouchableOpacity>
         </View>
         <Text style={styles.title}>Реєстрація</Text>
-        <TextInput
-          style={[styles.input, { marginTop: 32 }]}
-          placeholder="Логін"
-          autoComplete="off"
-          inputMode="text"
-          placeholderTextColor={"#BDBDBD"}
-        />
-        <TextInput
-          style={[styles.input, { marginTop: 16 }]}
-          placeholder="Адреса електронної пошти"
-          autoComplete="off"
-          inputMode="email"
-          placeholderTextColor={"#BDBDBD"}
-        />
-        <View style={[styles.input, { marginTop: 16 }]}>
-          <TextInput
-            placeholder="Пароль"
-            autoComplete="off"
-            placeholderTextColor={"#BDBDBD"}
-            secureTextEntry={isPasswordVisible ? false : true}
-          />
-          <TouchableOpacity style={styles.btnShow} onPress={togglePassword}>
-            <Text
-              style={{
-                color: "#1B4371",
-              }}
-            >
-              {isPasswordVisible ? "Сховати" : "Показати"}
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity
-          style={styles.btn}
-          onPress={() => Alert.alert("Simple Button pressed")}
+        <KeyboardAvoidingView
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
         >
-          <Text style={{ color: "#FFFFFF" }}>Зареєструватися</Text>
-        </TouchableOpacity>
+          <TextInput
+            style={[styles.input, { marginTop: 32 }]}
+            placeholder="Логін"
+            autoComplete="off"
+            inputMode="text"
+            placeholderTextColor={"#BDBDBD"}
+            onChangeText={setUserName}
+            value={userName}
+          />
+          <TextInput
+            style={[styles.input, { marginTop: 16 }]}
+            placeholder="Адреса електронної пошти"
+            autoComplete="off"
+            inputMode="email"
+            placeholderTextColor={"#BDBDBD"}
+            onChangeText={setUserEmail}
+            value={userEmail}
+          />
+          <View style={[styles.input, { marginTop: 16 }]}>
+            <TextInput
+              placeholder="Пароль"
+              autoComplete="off"
+              placeholderTextColor={"#BDBDBD"}
+              secureTextEntry={isPasswordVisible ? false : true}
+              onChangeText={setPassword}
+              value={password}
+            />
+            <TouchableOpacity style={styles.btnShow} onPress={togglePassword}>
+              <Text
+                style={{
+                  color: "#1B4371",
+                }}
+              >
+                {isPasswordVisible ? "Сховати" : "Показати"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity style={styles.btn} onPress={onRegistrate}>
+            <Text style={{ color: "#FFFFFF" }}>Зареєструватися</Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
         <View style={styles.textContainer}>
           <Text
             style={{

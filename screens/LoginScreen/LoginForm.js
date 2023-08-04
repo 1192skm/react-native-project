@@ -6,49 +6,66 @@ import {
   TextInput,
   Alert,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 
 export function LoginForm() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const togglePassword = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
+  const onLogin = () => {
+    Alert.alert("Credentials", `Login:${userEmail} Password:${password} `);
+    setUserEmail("");
+    setPassword("");
+  }
+
   return (
     <View style={[styles.container, { justifyContent: "flex-end" }]}>
       <View style={styles.formcontainer}>
         <Text style={styles.title}>Увійти</Text>
-        <TextInput
-          style={[styles.input, { marginTop: 32 }]}
-          placeholder="Адреса електронної пошти"
-          autoComplete="off"
-          inputMode="email"
-          placeholderTextColor={"#BDBDBD"}
-        />
-        <View style={[styles.input, { marginTop: 16 }]}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding": "height"}>
           <TextInput
-            placeholder="Пароль"
+            style={[styles.input, { marginTop: 32 }]}
+            placeholder="Адреса електронної пошти"
             autoComplete="off"
+            inputMode="email"
             placeholderTextColor={"#BDBDBD"}
-            secureTextEntry={isPasswordVisible ? false : true}
+            onChangeText={setUserEmail}
+            value={userEmail}
           />
-          <TouchableOpacity style={styles.btnShow} onPress={togglePassword}>
-            <Text
-              style={{
-                color: "#1B4371",
-              }}
-            >
-              {isPasswordVisible ? "Сховати" : "Показати"}
-            </Text>
+          <View style={[styles.input, { marginTop: 16 }]}>
+            <TextInput
+              placeholder="Пароль"
+              autoComplete="off"
+              placeholderTextColor={"#BDBDBD"}
+              secureTextEntry={isPasswordVisible ? false : true}
+              onChangeText={setPassword}
+              value={password}
+            />
+            <TouchableOpacity style={styles.btnShow} onPress={togglePassword}>
+              <Text
+                style={{
+                  color: "#1B4371",
+                }}
+              >
+                {isPasswordVisible ? "Сховати" : "Показати"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={onLogin}
+          >
+            <Text style={{ color: "#FFFFFF" }}>Увійти</Text>
           </TouchableOpacity>
-        </View>
-        <TouchableOpacity
-          style={styles.btn}
-          onPress={() => Alert.alert("Simple Button pressed")}
-        >
-          <Text style={{ color: "#FFFFFF" }}>Увійти</Text>
-        </TouchableOpacity>
+        </KeyboardAvoidingView>
+
         <View style={styles.textContainer}>
           <Text
             style={{

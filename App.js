@@ -1,8 +1,9 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, ImageBackground } from "react-native";
+import { StyleSheet, View, Keyboard } from "react-native";
 import LoginScreen from "./screens/LoginScreen/LoginScreen";
-// import RegistrationScreen from "./screens/RegistrationScreen/RegistrationScreen";
+import RegistrationScreen from "./screens/RegistrationScreen/RegistrationScreen";
 import { useFonts } from "expo-font";
+import { TouchableWithoutFeedback } from "react-native";
 
 export default function App() {
    const [fontsLoaded] = useFonts({
@@ -13,11 +14,13 @@ export default function App() {
      return null;
    }
   return (
-    <View style={styles.container}>
-      {/* <RegistrationScreen /> */}
-      <LoginScreen/>
-      <StatusBar style="auto" />
-    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <RegistrationScreen />
+        {/* <LoginScreen /> */}
+        <StatusBar style="auto" />
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
